@@ -74,6 +74,9 @@ TRANSLATIONS = {
         "contact_intro":
             "You don't need to know what technology you need. Start with the problem.",
 
+        "contact_privacy":
+            "Your number is not shown on the site. We only store your message so we can follow up later.",
+
         "name":
             "Name",
 
@@ -93,7 +96,10 @@ TRANSLATIONS = {
             "Name and email are required.",
 
         "contact_success":
-            "Thank you. We'll be in touch.",
+            "Thank you. We received your message and will follow up after reviewing it.",
+
+        "contact_whatsapp":
+            "Open WhatsApp",
 
         "footer":
             "Better decisions. Better systems. Better execution.",
@@ -174,6 +180,9 @@ TRANSLATIONS = {
         "contact_intro":
             "No necesitas saber qué tecnología necesitas. Empieza por el problema.",
 
+        "contact_privacy":
+            "Tu número no se muestra en el sitio. Solo guardamos tu mensaje para hacer seguimiento después.",
+
         "name":
             "Nombre",
 
@@ -193,7 +202,10 @@ TRANSLATIONS = {
             "El nombre y el email son obligatorios.",
 
         "contact_success":
-            "Gracias. Nos pondremos en contacto contigo.",
+            "Gracias. Hemos recibido tu mensaje y te contactaremos después de revisarlo.",
+
+        "contact_whatsapp":
+            "Abrir WhatsApp",
 
         "footer":
             "Mejores decisiones. Mejores sistemas. Mejor ejecución.",

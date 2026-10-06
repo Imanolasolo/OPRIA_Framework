@@ -1,4 +1,5 @@
 import streamlit as st
+from urllib.parse import quote_plus
 from content import CONTENT
 from translations import TRANSLATIONS
 from database import init_db, save_contact, save_business_check
@@ -17,6 +18,8 @@ st.set_page_config(
 
 init_db()
 
+WHATSAPP_NUMBER = "593993513082"
+
 if "language" not in st.session_state:
     st.session_state.language = "en"
 
@@ -33,6 +36,31 @@ def switch_language():
     st.session_state.language = (
         "es" if st.session_state.language == "en" else "en"
     )
+
+
+def build_whatsapp_url(name, company, email, message):
+    intro = (
+        "Hola, te escribo desde OPRIA."
+        if st.session_state.language == "es"
+        else "Hello, I am writing from OPRIA."
+    )
+
+    lines = [intro, ""]
+
+    if name:
+        lines.append(f"Nombre: {name}" if st.session_state.language == "es" else f"Name: {name}")
+
+    if company:
+        lines.append(f"Empresa: {company}" if st.session_state.language == "es" else f"Company: {company}")
+
+    if email:
+        lines.append(f"Email: {email}")
+
+    if message:
+        lines.append(message)
+
+    text = "\n".join(lines)
+    return f"https://wa.me/{WHATSAPP_NUMBER}?text={quote_plus(text)}"
 
 
 # ---------------------------------------------------------
@@ -389,6 +417,7 @@ with st.expander(t("contact_title"), expanded=False):
         f'<div class="contact-intro">{t("contact_intro")}</div>',
         unsafe_allow_html=True,
     )
+    st.caption(t("contact_privacy"))
 
     with st.form("contact_form"):
 
@@ -421,6 +450,11 @@ with st.expander(t("contact_title"), expanded=False):
                 )
 
                 st.success(t("contact_success"))
+                st.link_button(
+                    t("contact_whatsapp"),
+                    build_whatsapp_url(name, company, email, message),
+                    use_container_width=True,
+                )
 
 
 # ---------------------------------------------------------
