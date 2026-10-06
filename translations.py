@@ -101,6 +101,63 @@ TRANSLATIONS = {
         "contact_whatsapp":
             "Open WhatsApp",
 
+        "admin_title":
+            "Admin",
+
+        "admin_intro":
+            "View the live database directly from the app.",
+
+        "admin_password":
+            "Admin password",
+
+        "admin_user":
+            "Admin user",
+
+        "admin_login":
+            "Unlock admin panel",
+
+        "admin_logout":
+            "Lock admin panel",
+
+        "admin_refresh":
+            "Refresh data",
+
+        "admin_locked":
+            "The admin panel is locked.",
+
+        "admin_invalid_password":
+            "Invalid admin password.",
+
+        "admin_invalid_credentials":
+            "Invalid admin user or password.",
+
+        "admin_no_password_configured":
+            "No admin password is configured on the server. You can open a temporary session-only view now, but set OPRIA_ADMIN_PASSWORD in production.",
+
+        "admin_db_info":
+            "Database status",
+
+        "admin_db_path":
+            "Database file",
+
+        "admin_db_size":
+            "File size",
+
+        "admin_db_modified":
+            "Last modified",
+
+        "admin_table_counts":
+            "Table summary",
+
+        "admin_contacts":
+            "Recent contacts",
+
+        "admin_business_checks":
+            "Recent business checks",
+
+        "admin_empty":
+            "No records found.",
+
         "footer":
             "Better decisions. Better systems. Better execution.",
 
@@ -206,6 +263,63 @@ TRANSLATIONS = {
 
         "contact_whatsapp":
             "Abrir WhatsApp",
+
+        "admin_title":
+            "Admin",
+
+        "admin_intro":
+            "Ver la base de datos en vivo directamente desde la app.",
+
+        "admin_password":
+            "Contraseña de admin",
+
+        "admin_user":
+            "Usuario de admin",
+
+        "admin_login":
+            "Abrir panel de admin",
+
+        "admin_logout":
+            "Bloquear panel de admin",
+
+        "admin_refresh":
+            "Actualizar datos",
+
+        "admin_locked":
+            "El panel de admin está bloqueado.",
+
+        "admin_invalid_password":
+            "Contraseña de admin incorrecta.",
+
+        "admin_invalid_credentials":
+            "Usuario o contraseña de admin incorrectos.",
+
+        "admin_no_password_configured":
+            "No hay contraseña de admin configurada en el servidor. Puedes abrir una vista temporal solo para esta sesión, pero configura OPRIA_ADMIN_PASSWORD en producción.",
+
+        "admin_db_info":
+            "Estado de la base de datos",
+
+        "admin_db_path":
+            "Archivo de la base de datos",
+
+        "admin_db_size":
+            "Tamaño del archivo",
+
+        "admin_db_modified":
+            "Última modificación",
+
+        "admin_table_counts":
+            "Resumen de tablas",
+
+        "admin_contacts":
+            "Contactos recientes",
+
+        "admin_business_checks":
+            "Business checks recientes",
+
+        "admin_empty":
+            "No hay registros.",
 
         "footer":
             "Mejores decisiones. Mejores sistemas. Mejor ejecución.",

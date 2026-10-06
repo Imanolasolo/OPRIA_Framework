@@ -2,7 +2,14 @@ import streamlit as st
 from urllib.parse import quote_plus
 from content import CONTENT
 from translations import TRANSLATIONS
-from database import init_db, save_contact, save_business_check
+from database import (
+    init_db,
+    save_contact,
+    save_business_check,
+    get_database_info,
+    fetch_recent_contacts,
+    fetch_recent_business_checks,
+)
 
 
 # ---------------------------------------------------------
@@ -19,6 +26,17 @@ st.set_page_config(
 init_db()
 
 WHATSAPP_NUMBER = "593993513082"
+
+
+def get_secret(key, default=""):
+    try:
+        return st.secrets.get(key, default)
+    except Exception:
+        return default
+
+
+ADMIN_USERNAME = get_secret("OPRIA_ADMIN_USERNAME", "")
+ADMIN_PASSWORD = get_secret("OPRIA_ADMIN_PASSWORD", "")
 
 if "language" not in st.session_state:
     st.session_state.language = "en"
@@ -61,6 +79,51 @@ def build_whatsapp_url(name, company, email, message):
 
     text = "\n".join(lines)
     return f"https://wa.me/{WHATSAPP_NUMBER}?text={quote_plus(text)}"
+
+
+def format_bytes(size_bytes):
+    if size_bytes < 1024:
+        return f"{size_bytes} B"
+    if size_bytes < 1024 * 1024:
+        return f"{size_bytes / 1024:.1f} KB"
+    return f"{size_bytes / (1024 * 1024):.1f} MB"
+
+
+def render_admin_panel():
+    with st.expander(t("admin_title"), expanded=False):
+        if not st.session_state.get("admin_unlocked", False):
+            admin_user = st.text_input(
+                t("admin_user"),
+                key="admin_user_input",
+            )
+            admin_password = st.text_input(
+                t("admin_password"),
+                type="password",
+                key="admin_password_input",
+            )
+
+            if st.button(t("admin_login"), key="admin_login", use_container_width=True):
+                if admin_user == ADMIN_USERNAME and admin_password == ADMIN_PASSWORD:
+                    st.session_state["admin_unlocked"] = True
+                    st.rerun()
+                else:
+                    st.error(t("admin_invalid_credentials"))
+
+            return
+        contacts = fetch_recent_contacts(limit=100)
+        checks = fetch_recent_business_checks(limit=100)
+
+        st.write(t("admin_contacts"))
+        if contacts:
+            st.dataframe(contacts, use_container_width=True, hide_index=True)
+        else:
+            st.info(t("admin_empty"))
+
+        st.write(t("admin_business_checks"))
+        if checks:
+            st.dataframe(checks, use_container_width=True, hide_index=True)
+        else:
+            st.info(t("admin_empty"))
 
 
 # ---------------------------------------------------------
@@ -202,6 +265,62 @@ st.markdown(
         background: linear-gradient(135deg, #5eead4 0%, #38bdf8 100%);
         color: #081018;
         border-color: #a5f3fc;
+    }
+
+    div[data-testid="stExpander"] input,
+    div[data-testid="stExpander"] textarea,
+    div[data-testid="stExpander"] [data-baseweb="input"] input,
+    div[data-testid="stExpander"] [data-baseweb="textarea"] textarea {
+        color: #f8fafc !important;
+        caret-color: #f8fafc !important;
+        background-color: #1f2937 !important;
+    }
+
+    div[data-testid="stExpander"] [data-baseweb="input"] input,
+    div[data-testid="stExpander"] [data-baseweb="textarea"] textarea {
+        border: 1px solid #4b5563 !important;
+        border-radius: 8px !important;
+    }
+
+    div[data-testid="stExpander"] [data-baseweb="input"] input:focus,
+    div[data-testid="stExpander"] [data-baseweb="textarea"] textarea:focus {
+        background-color: #111827 !important;
+        border-color: #93c5fd !important;
+        box-shadow: 0 0 0 1px #93c5fd !important;
+        outline: none !important;
+    }
+
+    div[data-testid="stExpander"] input::placeholder,
+    div[data-testid="stExpander"] textarea::placeholder {
+        color: rgba(255, 255, 255, 0.9) !important;
+        opacity: 1 !important;
+    }
+
+    div[data-testid="stExpander"] label,
+    div[data-testid="stExpander"] label p,
+    div[data-testid="stExpander"] label span {
+        color: #ffffff !important;
+        opacity: 1 !important;
+    }
+
+    div[data-testid="stExpander"] [data-testid="stTextInput"] label,
+    div[data-testid="stExpander"] [data-testid="stTextInput"] label p,
+    div[data-testid="stExpander"] [data-testid="stTextInput"] label span {
+        color: #ffffff !important;
+        opacity: 1 !important;
+    }
+
+    .st-key-admin_login button {
+        background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
+        color: #ffffff !important;
+        border: 1px solid #c4b5fd;
+        font-weight: 800;
+    }
+
+    .st-key-admin_login button:hover {
+        background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+        color: #ffffff !important;
+        border-color: #ddd6fe;
     }
 
     </style>
@@ -455,6 +574,13 @@ with st.expander(t("contact_title"), expanded=False):
                     build_whatsapp_url(name, company, email, message),
                     use_container_width=True,
                 )
+
+
+# ---------------------------------------------------------
+# ADMIN
+# ---------------------------------------------------------
+
+render_admin_panel()
 
 
 # ---------------------------------------------------------
